@@ -1,0 +1,27 @@
+---
+name: Checks
+
+# Trigger
+on: [push]
+
+jobs:
+  # Unit test ve yazım hatalarını kontrol etme işi
+  test-lint:
+    name: Test and Lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Login to Docker Hub
+        # Önceden github action'lar içinde belirlenmiş aksiyonları kullanmak için uses kullanılır.
+        uses: docker/login-action@v1
+        with:
+          username: ${{secrets.DOCKERHUB_USER }}
+          password: ${{secrets.DOCKERHUB_TOKEN }}
+      # Login'in başarılı olup olmadığını kontrol edeceğimiz adım
+      - name: Checkout
+        uses: actions/checkout@v2
+      # Run unit tests
+      - name: Test
+        run: docker-compose run --rm app sh -c "python manage.py test"
+      # Run lint control
+      - name: Lint
+        run: docker-compose run --rm app sh -c "flake8"
