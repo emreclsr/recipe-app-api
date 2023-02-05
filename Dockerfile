@@ -14,12 +14,19 @@ EXPOSE 8000
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
+    # add dependecies for psycopg2 (postgresql adapter)
+    apk add --update --no-cache postgresql-client &&\
+    # kurulum tamamlandıktan sonra ihtiyacımız olmayan paketleri tmp-build-deps olarak grupluyoruz 
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     # if DEV true requirements.dev.txt'yi yükle
     if [ $DEV = "true" ]; \
         then /py/bin/pip install -r /tmp/requirements.dev.txt ; \
     fi && \
     rm -rf /tmp && \
+    # artık ihtiyacımız olmayan paketleri siliyoruz
+    apk del .tmp-build-deps &&\
     adduser \
         --disabled-password \
         --no-create-home \

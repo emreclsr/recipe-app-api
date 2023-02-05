@@ -12,3 +12,26 @@ services:
       - ./app:/app
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    environment:
+      # docker compose database servisinin adı olan db'yi host olarak kullanmayı sağlayacaktır. Gerekli network ayarlamalarını yapacaktır.
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    # db servisi başlatıldıtan sonra app başlatılacaktır. The app service can use db hostname
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data # buradaki path'i dökümantasyondan aldı
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+# kalıcı (persistent) data kullanmak istediğimizden, yani db service'inin her yeniden başladığında sıfırdan başlamadan
+# lokal makinedeki data ile ayağa kalkabilmesi için volumes oluşturuyoruz
+volumes:
+  dev-db-data:
