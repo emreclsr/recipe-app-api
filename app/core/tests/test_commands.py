@@ -20,7 +20,7 @@ class CommandTests(SimpleTestCase):
 
         call_command("wait_for_db")
 
-        patched_check.assert_called_once_with(database=["default"])  # doğru db'yi çağırıyor muyuz aslında bunu test ediyor.
+        patched_check.assert_called_once_with(databases=["default"])  # doğru db'yi çağırıyor muyuz aslında bunu test ediyor.
 
     # Bu testte bir exception oluşmasını istiyoruz.
     @patch("time.sleep")  # db'ye istek attığımızda bir süre bekleyip ardından ikinci isteği göndermek istediğimiz bu beklemyi de mockluyoruz.
@@ -33,5 +33,4 @@ class CommandTests(SimpleTestCase):
         call_command("wait_for_db")
 
         self.assertEqual(patched_check.call_count, 6)  # 6 defa çağıracağız ve sonunda bağlantıyı sağlamış yani True değerini almış olacağız.
-        patched_check.assert_called_with(database=["default"])
-        
+        patched_check.assert_called_with(databases=["default"])
