@@ -10,8 +10,11 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+    # command kısmında db'nin çalışmasını bekle, migrate işlemi ile db'yi yeni model varsa onlara göre güncelle ardından çalıştır
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py wait_for_db && 
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
     environment:
       # docker compose database servisinin adı olan db'yi host olarak kullanmayı sağlayacaktır. Gerekli network ayarlamalarını yapacaktır.
       - DB_HOST=db
