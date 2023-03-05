@@ -7,7 +7,7 @@ on: [push]
 jobs:
   # Unit test ve yazım hatalarını kontrol etme işi
   test-lint:
-    name: Test and Lint
+    name: Test
     runs-on: ubuntu-20.04
     steps:
       - name: Login to Docker Hub
