@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "core",  # yeni oluşturduğumuz app'i buraya ekliyoruz.
+    "rest_framework",  # documentation için eklendi.
+    "drf_spectacular",  # documentation için eklendi.
 ]
 
 MIDDLEWARE = [
@@ -130,3 +132,8 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "core.User"
+
+# documentation için eklendi
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema"
+}
