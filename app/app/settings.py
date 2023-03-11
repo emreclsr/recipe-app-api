@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "core",  # yeni oluşturduğumuz app'i buraya ekliyoruz.
     "rest_framework",  # documentation için eklendi.
     "drf_spectacular",  # documentation için eklendi.
+    "user",  # user app
 ]
 
 MIDDLEWARE = [
