@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "core",  # yeni oluşturduğumuz app'i buraya ekliyoruz.
     "rest_framework",  # documentation için eklendi.
+    "rest_framework.authtoken",  # authentication için eklendi
     "drf_spectacular",  # documentation için eklendi.
     "user",  # user app
 ]
