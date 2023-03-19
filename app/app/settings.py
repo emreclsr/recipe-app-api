@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "rest_framework.authtoken",  # authentication için eklendi
     "drf_spectacular",  # documentation için eklendi.
     "user",  # user app
+    "recipe",  #recipe app
 ]
 
 MIDDLEWARE = [
