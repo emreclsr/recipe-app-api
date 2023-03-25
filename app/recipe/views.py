@@ -27,3 +27,8 @@ class RecipeViewSet(viewsets.ModelViewSet):  # ModelViewSet -> modelleri ile ça
             return serializers.RecipeSerializer
 
         return self.serializer_class
+
+    # https://www.django-rest-framework.org/api-guide/generic-views/#get_serializer_classself
+    def perform_create(self, serializer):
+        """Create a new recipe."""
+        serializer.save(user=self.request.user)
