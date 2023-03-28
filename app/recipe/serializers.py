@@ -4,7 +4,7 @@ Serializers for recipe APIs
 
 from rest_framework import serializers
 
-from core.models import Recipe, Tag
+from core.models import Recipe, Tag, Ingredient
 
 
 # Tag serializer Recipe serializer içerisine nested olarak tanımlanacağı için Recipe serializer'dan daha yukarıda olmalıdır.
@@ -13,6 +13,15 @@ class TagSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Tag
+        fields = ["id", "name"]
+        read_only_fields = ["id"]
+
+
+class IngredientSerializer(serializers.ModelSerializer):
+    """Serializer for ingredients"""
+
+    class Meta:
+        model = Ingredient
         fields = ["id", "name"]
         read_only_fields = ["id"]
 
