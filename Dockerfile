@@ -30,7 +30,13 @@ RUN python -m venv /py && \
     adduser \
         --disabled-password \
         --no-create-home \
-        django-user
+        django-user && \
+    # media ve static dosyalar için klasör açıyoruz
+    mkdir -p /vol/web/media && \
+    mkdir -p /vol/web/static && \
+    # açılan klasörlerin sahipliğini değiştirme
+    chown -R djnago-user:djnago-user /vol && \
+    chmod -R 755 /vol
 
 # root user'ı kullanmak istemediğimiz için yeni bir user oluşturuyoruz.
 
