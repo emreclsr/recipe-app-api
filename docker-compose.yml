@@ -10,9 +10,10 @@ services:
       - "8000:8000"
     volumes:
       - ./app:/app
+      - dev-static-data:/vol/web
     # command kısmında db'nin çalışmasını bekle, migrate işlemi ile db'yi yeni model varsa onlara göre güncelle ardından çalıştır
     command: >
-      sh -c "python manage.py wait_for_db && 
+      sh -c "python manage.py wait_for_db &&
              python manage.py migrate &&
              python manage.py runserver 0.0.0.0:8000"
     environment:
@@ -38,3 +39,4 @@ services:
 # lokal makinedeki data ile ayağa kalkabilmesi için volumes oluşturuyoruz
 volumes:
   dev-db-data:
+  dev-static-data:
