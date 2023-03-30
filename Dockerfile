@@ -9,16 +9,16 @@ COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
 
-# DEV parametresi false verildi yani sadece Dockerfile çalışırsa production'daymış gibi olacak ama 
+# DEV parametresi false verildi yani sadece Dockerfile çalışırsa production'daymış gibi olacak ama
 # development sırasında docker-compose'da bu parametre true olacağından burası true olacaktır.
 ARG DEV=false
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     # add dependecies for psycopg2 (postgresql adapter)
-    apk add --update --no-cache postgresql-client &&\
-    # kurulum tamamlandıktan sonra ihtiyacımız olmayan paketleri tmp-build-deps olarak grupluyoruz 
+    apk add --update --no-cache postgresql-client jpeg-dev &&\
+    # kurulum tamamlandıktan sonra ihtiyacımız olmayan paketleri tmp-build-deps olarak grupluyoruz
     apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev && \
+        build-base postgresql-dev musl-dev zlib zlib-dev && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     # if DEV true requirements.dev.txt'yi yükle
     if [ $DEV = "true" ]; \
