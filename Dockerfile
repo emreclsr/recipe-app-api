@@ -5,6 +5,7 @@ ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /tmp/requirements.txt
 COPY ./requirements.dev.txt /tmp/requirements.dev.txt
+COPY ./scripts /scripts
 COPY ./app /app
 WORKDIR /app
 EXPOSE 8000
@@ -18,7 +19,8 @@ RUN python -m venv /py && \
     apk add --update --no-cache postgresql-client jpeg-dev &&\
     # kurulum tamamlandıktan sonra ihtiyacımız olmayan paketleri tmp-build-deps olarak grupluyoruz
     apk add --update --no-cache --virtual .tmp-build-deps \
-        build-base postgresql-dev musl-dev zlib zlib-dev && \
+    # linux-headers uWSGI kurulumu için eklendi
+        build-base postgresql-dev musl-dev zlib zlib-dev linux-headers && \
     /py/bin/pip install -r /tmp/requirements.txt && \
     # if DEV true requirements.dev.txt'yi yükle
     if [ $DEV = "true" ]; \
@@ -36,10 +38,14 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/static && \
     # açılan klasörlerin sahipliğini değiştirme
     chown -R django-user:django-user /vol && \
-    chmod -R 755 /vol
+    chmod -R 755 /vol && \
+    # /script'i executable yapma
+    chmod -R +x /scripts
 
 # root user'ı kullanmak istemediğimiz için yeni bir user oluşturuyoruz.
 
-ENV PATH="/py/bin:$PATH"
+ENV PATH="/scripts:/py/bin:$PATH"
 
 USER django-user
+
+CMD ["run.sh"]
