@@ -22,6 +22,7 @@ services:
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=changeme
+      - DEBUG=1
     # db servisi başlatıldıtan sonra app başlatılacaktır. The app service can use db hostname
     depends_on:
       - db
